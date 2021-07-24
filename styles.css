@@ -1,0 +1,18 @@
+#div-game-board {
+    
+    background-color: aquamarine;
+    width: 910px;
+    height: 910px;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.square {
+    border: 1px solid black;
+    height: 300px;
+    width: 300px;
+}
+p {
+    font-size: 100px;
+}
