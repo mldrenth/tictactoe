@@ -6,20 +6,21 @@ const gameBoard = (() => {
     const oSign = document.querySelector("#O");
 
     oSign.addEventListener("click", function() {
-        sign = gameControls.playerO.sign;   
-        gameControls.setPlayer(sign)
+        gameControls.chosenPlayer = gameControls.playerO;   
         
-        return {sign }
+        
     })
 
    
 
     xSign.addEventListener("click", function() {
-        sign = gameControls.playerX.sign;
-        gameControls.setPlayer(sign)
+        gameControls.chosenPlayer = gameControls.playerX;
+      
         
-        return sign
+       
     })
+
+    
 
     const populateBoard = () => {
     let index = 0;
@@ -41,10 +42,12 @@ const gameBoard = (() => {
                 return;
             }
             else {
-            board[divIndex] = sign;
+            board[divIndex] = gameControls.chosenPlayer.sign;
             clearBoard()
             populateBoard()
-            gameControls.checkWinner()}
+            gameControls.checkWinner()
+            // gameControls.changePlayer()
+            }
         })
 
         newSquare.appendChild(newSign);
@@ -100,6 +103,20 @@ function setPlayer(sign) {
 }
 
 
+function changePlayer() {
+    if (chosenPlayer == playerX) {
+        chosenPlayer = playerO;
+        otherPlayer = playerX;
+        console.log(chosenPlayer)
+        
+    }
+    else if (chosenPlayer == playerO) {
+        chosenPlayer = playerX;
+        otherPlayer = playerO;
+        console.log(chosenPlayer)
+    }
+    return {chosenPlayer, otherPlayer}
+}
 
 const winConditions = [
     [0,1,2],
@@ -129,5 +146,5 @@ const checkWinner = () => {
 }}
 checkWinner(gameBoard.board);
 
-return {checkWinner, playerX, playerO, chosenPlayer, setPlayer}
+return {checkWinner, playerX, playerO, chosenPlayer, otherPlayer, setPlayer, changePlayer}
 })();
