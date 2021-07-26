@@ -6,13 +6,18 @@ const gameBoard = (() => {
     const oSign = document.querySelector("#O");
 
     oSign.addEventListener("click", function() {
-        sign = "O";      
-        return sign
+        sign = gameControls.playerO.sign;   
+        gameControls.setPlayer(sign)
+          
+        return {sign }
     })
 
+   
 
     xSign.addEventListener("click", function() {
-        sign = "X";
+        sign = gameControls.playerX.sign;
+        gameControls.setPlayer(sign)
+        
         return sign
     })
 
@@ -32,9 +37,14 @@ const gameBoard = (() => {
 
         newSquare.addEventListener("click", function() {
             let divIndex = newSquare.id;
+            if (board[divIndex] !== ""){
+                return;
+            }
+            else {
             board[divIndex] = sign;
             clearBoard()
             populateBoard()
+            gameControls.checkWinner()}
         })
 
         newSquare.appendChild(newSign);
@@ -47,7 +57,7 @@ const gameBoard = (() => {
                     divGameBoard.removeChild(divGameBoard.firstChild);
                 }}
     populateBoard();
-
+                
         
     
     
@@ -61,6 +71,59 @@ const gameBoard = (() => {
 
 
 
-const Player = (sign) => {
+const playerFactory = (name, sign) => {
+    
+    return {name, sign}
 
 }
+
+const gameControls = (() => {
+
+const playerX = playerFactory("Player X", "X");
+const playerO = playerFactory("Player O", "O");
+
+let chosenPlayer = playerX
+
+function setPlayer(sign) {
+    if (sign == "X") {
+        chosenPlayer = playerX;
+    }
+    else if (sign == "O") {
+        chosenPlayer = playerO;
+    }
+    return chosenPlayer
+}
+setPlayer("O")
+
+console.log(chosenPlayer)
+
+const winConditions = [
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [2,4,6],
+    [0,4,8]
+
+]
+
+const checkWinner = () => {
+    for (let win of winConditions) {
+        let testSigns = [];
+        for (let index of win) {
+            testSigns.push(gameBoard.board[index])  
+        }
+        let set1 = [...new Set(testSigns)] 
+        if (set1.length === 1 && set1 != "") {
+            console.log(chosenPlayer)
+        }
+
+        
+        
+}}
+checkWinner(gameBoard.board);
+
+return {checkWinner, playerX, playerO, chosenPlayer, setPlayer}
+})();
