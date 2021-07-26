@@ -1,5 +1,5 @@
 const gameBoard = (() => {
-    let board = ["O","X","","","","","","",""];
+    let board = ["","","","","","","","",""];
     let sign = "X"
     const divGameBoard = document.querySelector("#div-game-board");
     const xSign = document.querySelector("#X");
@@ -8,7 +8,7 @@ const gameBoard = (() => {
     oSign.addEventListener("click", function() {
         sign = gameControls.playerO.sign;   
         gameControls.setPlayer(sign)
-          
+        
         return {sign }
     })
 
@@ -83,19 +83,23 @@ const playerX = playerFactory("Player X", "X");
 const playerO = playerFactory("Player O", "O");
 
 let chosenPlayer = playerX
+let otherPlayer = playerO
 
 function setPlayer(sign) {
     if (sign == "X") {
         chosenPlayer = playerX;
+        otherPlayer = playerO;
+        console.log(chosenPlayer)
     }
     else if (sign == "O") {
         chosenPlayer = playerO;
+        otherPlayer = playerX;
+        console.log(chosenPlayer)
     }
-    return chosenPlayer
+    return {chosenPlayer, otherPlayer}
 }
-setPlayer("O")
 
-console.log(chosenPlayer)
+
 
 const winConditions = [
     [0,1,2],
@@ -117,7 +121,7 @@ const checkWinner = () => {
         }
         let set1 = [...new Set(testSigns)] 
         if (set1.length === 1 && set1 != "") {
-            console.log(chosenPlayer)
+            console.log("Winner is: " + chosenPlayer.name +" Loser is: " + otherPlayer.name)
         }
 
         
