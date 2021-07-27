@@ -24,9 +24,9 @@ const gameBoard = (() => {
         let newSquare = document.createElement("div")
         let newSign = document.createElement("p");
 
-        newSquare.style.border = "1px solid black";
-        newSquare.style.width = "300px";
-        newSquare.style.height = "300px";
+        // newSquare.style.border = "2% solid black";
+        newSquare.style.width = "32%";
+        newSquare.style.height = "32%";
         newSquare.id = index;
         newSquare.className = "square";
 

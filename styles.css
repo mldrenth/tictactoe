@@ -1,18 +1,37 @@
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   text-align: center;
+
+}
+
+#game-controls {
+    margin-bottom: 30px;
+    
+}
 #div-game-board {
     
+    
     background-color: aquamarine;
-    width: 910px;
-    height: 910px;
+    width: 33vw;
+    height: 33vw;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-evenly;
     text-align: center;
+    border: 0.5 solid black;
+   
 }
 
 .square {
-    border: 1px solid black;
-    height: 300px;
-    width: 300px;
+    border: 0.1vmax solid black;
+    
+}
+h1 {
+    text-align: center;
 }
 p {
-    font-size: 100px;
+    font-size: 3vw;
 }
