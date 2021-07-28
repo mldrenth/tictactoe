@@ -4,6 +4,7 @@ const gameBoard = (() => {
     const divGameBoard = document.querySelector("#div-game-board");
     const xSign = document.querySelector("#X");
     const oSign = document.querySelector("#O");
+    const message = document.querySelector("#message")
 
     oSign.addEventListener("click", function() {
         gameControls.setChosenPlayer("O")  
@@ -16,7 +17,10 @@ const gameBoard = (() => {
        
     })
 
+    const getBoard = () => {
+        return board
     
+    }
 
     const populateBoard = () => {
     let index = 0;
@@ -56,6 +60,15 @@ const gameBoard = (() => {
                 while (divGameBoard.hasChildNodes()) {
                     divGameBoard.removeChild(divGameBoard.firstChild);
                 }}
+
+    function resetGame() {
+        clearBoard();
+        message.innerHTML = "Choose your Player"
+        gameBoard.chosenPlayer = gameBoard.playerX;
+        gameBoard.otherPlayer = gameBoard.playerO;
+        board =  ["","","","","","","","",""];
+        populateBoard();
+    }
     populateBoard();
                 
         
@@ -63,7 +76,7 @@ const gameBoard = (() => {
     
     
    return {
-       board, populateBoard, sign
+       board, populateBoard, sign, message, resetGame,
    }
    
   
@@ -154,7 +167,10 @@ const checkWinner = () => {
         }
         let set1 = [...new Set(testSigns)] 
         if (set1.length === 1 && set1 != "") {
-            console.log("Winner is: " + chosenPlayer.name +" Loser is: " + otherPlayer.name)
+            gameBoard.message.innerHTML = "Winner is: " + chosenPlayer.name +" Loser is: " + otherPlayer.name
+             if (confirm("Do you want to play again?") === true) {
+                 gameBoard.resetGame()
+             }
         }
 
         

@@ -1,3 +1,9 @@
+body {
+    background-color: #7D6B7D;
+}
+#message {
+    font-size: 1.5rem;
+}
 #wrapper {
     display: flex;
     flex-direction: column;
@@ -9,12 +15,16 @@
 
 #game-controls {
     margin-bottom: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 33vw;
     
 }
 #div-game-board {
     
     
-    background-color: aquamarine;
+    background-color: #A3A1A8;
     width: 33vw;
     height: 33vw;
     display: flex;
@@ -31,7 +41,9 @@
 }
 h1 {
     text-align: center;
+    color: #FF665A;
 }
 p {
     font-size: 3vw;
+    color: #FF665A
 }
