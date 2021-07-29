@@ -37,13 +37,14 @@ const gameBoard = (() => {
         newSign.innerHTML = square;
 
         newSquare.addEventListener("click", function() {
+            gameControls.getChosenPlayer()
             let divIndex = newSquare.id;
             if (board[divIndex] !== ""){
                 return;
             }
             else {
-            
-            board[divIndex] = gameControls.getChosenPlayer().sign;
+           
+            gameBoard.getBoard()[divIndex] = gameControls.getChosenPlayer().sign;
             clearBoard()
             populateBoard()
             gameControls.checkWinner()
@@ -61,13 +62,18 @@ const gameBoard = (() => {
                     divGameBoard.removeChild(divGameBoard.firstChild);
                 }}
 
+    const clearBoardArray = () => {
+        gameBoard.getBoard() 
+        board =  ["","","","","","","","",""];
+        return board
+    } 
+
     function resetGame() {
         clearBoard();
         message.innerHTML = "Choose your Player"
-        gameBoard.chosenPlayer = gameBoard.playerX;
-        gameBoard.otherPlayer = gameBoard.playerO;
-        board =  ["","","","","","","","",""];
-        populateBoard();
+        // gameControls.setChosenPlayer("X");
+        gameBoard.clearBoardArray()
+       
     }
     populateBoard();
                 
@@ -76,7 +82,7 @@ const gameBoard = (() => {
     
     
    return {
-       board, populateBoard, sign, message, resetGame,
+       board, populateBoard, sign, message, resetGame, getBoard, clearBoardArray
    }
    
   
@@ -102,44 +108,49 @@ function setPlayer(sign) {
     if (sign == "X") {
         chosenPlayer = playerX;
         otherPlayer = playerO;
-        console.log(chosenPlayer)
+        
     }
     else if (sign == "O") {
         chosenPlayer = playerO;
         otherPlayer = playerX;
-        console.log(chosenPlayer)
+        
     }
     return {chosenPlayer, otherPlayer}
 }
 
 
 function changePlayer() {
+    gameControls.getChosenPlayer()
     if (chosenPlayer == playerX) {
         chosenPlayer = playerO;
         otherPlayer = playerX;
-        console.log(chosenPlayer)
+        
         
     }
     else if (chosenPlayer == playerO) {
         chosenPlayer = playerX;
         otherPlayer = playerO;
-        console.log(chosenPlayer)
+        
     }
     return {chosenPlayer, otherPlayer}
 }
 
 const setChosenPlayer = (sign) => {
     if (sign == "X") {
+        console.log("Test X")
         chosenPlayer = playerX;
         otherPlayer = playerO;
-        console.log(chosenPlayer)
+        
+        
     }
     else if (sign == "O") {
+        console.log("Test O")
         chosenPlayer = playerO;
         otherPlayer = playerX;
-        console.log(chosenPlayer)
+       
     }
-    return {chosenPlayer, otherPlayer}
+    
+    // return {chosenPlayer, otherPlayer}
 }
 
 const getChosenPlayer = () => {
@@ -163,13 +174,19 @@ const checkWinner = () => {
     for (let win of winConditions) {
         let testSigns = [];
         for (let index of win) {
-            testSigns.push(gameBoard.board[index])  
+            
+            testSigns.push(gameBoard.getBoard()[index])  
+            console.log[testSigns]
         }
         let set1 = [...new Set(testSigns)] 
         if (set1.length === 1 && set1 != "") {
             gameBoard.message.innerHTML = "Winner is: " + chosenPlayer.name +" Loser is: " + otherPlayer.name
              if (confirm("Do you want to play again?") === true) {
                  gameBoard.resetGame()
+                gameBoard.populateBoard()
+                 testSigns = [];
+                 set1 = [];
+                 console.log(gameBoard.board)
              }
         }
 
