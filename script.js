@@ -24,6 +24,7 @@ const gameBoard = (() => {
 
     const populateBoard = () => {
     let index = 0;
+   
     for (let square of board) {
         let newSquare = document.createElement("div")
         let newSign = document.createElement("p");
@@ -37,18 +38,19 @@ const gameBoard = (() => {
         newSign.innerHTML = square;
 
         newSquare.addEventListener("click", function() {
-            gameControls.getChosenPlayer()
+           
             let divIndex = newSquare.id;
             if (board[divIndex] !== ""){
                 return;
             }
             else {
-           
+            
             gameBoard.getBoard()[divIndex] = gameControls.getChosenPlayer().sign;
             clearBoard()
             populateBoard()
-            gameControls.checkWinner()
             gameControls.changePlayer()
+            gameControls.checkWinner()
+            // gameControls.changePlayer()
             }
         })
 
@@ -71,10 +73,11 @@ const gameBoard = (() => {
     function resetGame() {
         clearBoard();
         message.innerHTML = "Choose your Player"
-        // gameControls.setChosenPlayer("X");
+        gameControls.setChosenPlayer("X");
         gameBoard.clearBoardArray()
        
     }
+    
     populateBoard();
                 
         
@@ -180,14 +183,21 @@ const checkWinner = () => {
         }
         let set1 = [...new Set(testSigns)] 
         if (set1.length === 1 && set1 != "") {
+            //Need to implement turns function so this change is not necessary
+            gameControls.changePlayer()
+
             gameBoard.message.innerHTML = "Winner is: " + chosenPlayer.name +" Loser is: " + otherPlayer.name
              if (confirm("Do you want to play again?") === true) {
-                 gameBoard.resetGame()
+                gameBoard.resetGame()
+                gameControls.changePlayer()
                 gameBoard.populateBoard()
+                // getChosenPlayer()
+                setChosenPlayer("X")
                  testSigns = [];
                  set1 = [];
-                 console.log(gameBoard.board)
+                 
              }
+             
         }
 
         
