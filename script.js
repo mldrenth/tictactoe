@@ -4,17 +4,27 @@ const gameBoard = (() => {
     const divGameBoard = document.querySelector("#div-game-board");
     const xSign = document.querySelector("#X");
     const oSign = document.querySelector("#O");
+    const restartButton = document.querySelector("#restart");
     const message = document.querySelector("#message")
 
     oSign.addEventListener("click", function() {
         gameControls.setChosenPlayer("O")  
+        gameControls.setGameStatus(true)
+        changeMessage()
     })
 
    
 
     xSign.addEventListener("click", function() {
         gameControls.setChosenPlayer("X")
-       
+        gameControls.setGameStatus(true)
+        changeMessage()
+    })
+
+    restartButton.addEventListener("click", function() {
+        gameControls.setGameStatus(false)
+        resetGame();
+        populateBoard();
     })
 
     const getBoard = () => {
@@ -38,18 +48,24 @@ const gameBoard = (() => {
         newSign.innerHTML = square;
 
         newSquare.addEventListener("click", function() {
-           
             let divIndex = newSquare.id;
-            if (board[divIndex] !== ""){
+            if (gameControls.getGameStatus() == false) {
+                return
+            }
+            else if (board[divIndex] !== ""){
                 return;
             }
             else {
             
             gameBoard.getBoard()[divIndex] = gameControls.getChosenPlayer().sign;
+           
             clearBoard()
             populateBoard()
             gameControls.changePlayer()
+            gameBoard.changeMessage()
+            gameControls.checkTie()
             gameControls.checkWinner()
+           
             // gameControls.changePlayer()
             }
         })
@@ -75,17 +91,21 @@ const gameBoard = (() => {
         message.innerHTML = "Choose your Player"
         gameControls.setChosenPlayer("X");
         gameBoard.clearBoardArray()
-       
+        gameControls.setGameStatus(false)
     }
-    
+    function changeMessage() {
+        if (gameControls.getGameStatus() == true) {
+            
+            message.innerHTML = "Player " + gameControls.getChosenPlayer().sign + "'s turn"
+        }}
     populateBoard();
                 
-        
+    
     
     
     
    return {
-       board, populateBoard, sign, message, resetGame, getBoard, clearBoardArray
+       board, populateBoard, sign, message, resetGame, getBoard, clearBoardArray, changeMessage
    }
    
   
@@ -106,6 +126,17 @@ const playerO = playerFactory("Player O", "O");
 
 let chosenPlayer = playerX
 let otherPlayer = playerO
+
+let gameStatus = false;
+
+const getGameStatus = () => {
+    return gameStatus
+}
+
+const setGameStatus = (status) => {
+    getGameStatus()
+    return gameStatus = status
+}
 
 function setPlayer(sign) {
     if (sign == "X") {
@@ -187,23 +218,30 @@ const checkWinner = () => {
             gameControls.changePlayer()
 
             gameBoard.message.innerHTML = "Winner is: " + chosenPlayer.name +" Loser is: " + otherPlayer.name
-             if (confirm("Do you want to play again?") === true) {
-                gameBoard.resetGame()
-                gameControls.changePlayer()
-                gameBoard.populateBoard()
-                // getChosenPlayer()
-                setChosenPlayer("X")
+             
+                // gameBoard.resetGame()
+                // gameControls.changePlayer()
+                // gameBoard.populateBoard()
+                // // getChosenPlayer()
+                // setChosenPlayer("X")
                  testSigns = [];
                  set1 = [];
-                 
-             }
+                 setGameStatus(false);
              
-        }
-
-        
+             
+        }      
         
 }}
 checkWinner(gameBoard.board);
-
-return {setChosenPlayer, getChosenPlayer, checkWinner, playerX, playerO, chosenPlayer, otherPlayer, setPlayer, changePlayer}
+const checkTie = () => {
+    
+    function checkSpot(spot) {
+        return spot != ""
+    }
+    if (gameBoard.getBoard().every(checkSpot)) {
+        gameBoard.message.innerHTML = "It's a tie!"
+        setGameStatus(false);
+    }
+}
+return {setChosenPlayer, getChosenPlayer, checkWinner,checkTie, playerX, playerO, chosenPlayer, otherPlayer, setPlayer, changePlayer, gameStatus, getGameStatus, setGameStatus}
 })();
